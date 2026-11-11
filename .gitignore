@@ -75,15 +75,18 @@ watchman/
 # backend
 /backend/node_modules
 /backend/.env*
+!/backend/.env.example
 /backend/dist
 /backend/.next
 
 # frontend
 /frontend/node_modules
 /frontend/.env*
+!/frontend/.env.example
 /frontend/dist
 /frontend/.next
 /frontend/build
 
 # Root
+!README.md
 *.md
