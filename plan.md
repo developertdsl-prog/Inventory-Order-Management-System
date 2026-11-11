@@ -6,7 +6,7 @@ git branch -M main
 git remote add origin git@github.com:developertdsl-prog/Inventory-Order-Management-System.git
 git push -u origin main
 
-
+# github_token removed for security - configure securely
 
 Master Project Prompt: Inventory & Order Management System (IOMS)
 
