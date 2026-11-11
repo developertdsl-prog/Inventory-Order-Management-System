@@ -24,17 +24,17 @@ model Product {
   sku         String    @unique
   barcode     String?   @unique
   stock       Int       @default(0)
-  category    Category?
+  category    Category? @relation(fields: [categoryId], references: [id])
+  categoryId  String?
   images      String[]
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
 }
 
 model Category {
-  id   String   @id @default(uuid())
-  name String   @unique
-  products Product[] @relation(fields: [categoryId], references: [id])
-  categoryId String?
+  id     String    @id @default(uuid())
+  name   String    @unique
+  products Product[]
 }
 
 model Supplier {
