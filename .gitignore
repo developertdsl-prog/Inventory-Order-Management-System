@@ -1,0 +1,89 @@
+# Dependency directories
+/node_modules
+/.pnp
+*.orig
+*.REM
+
+# Testing
+/coverage
+/.nyc_output
+
+# Production
+/dist
+/.next
+/build
+
+# Misc
+.DS_Store
+.env.local
+.env.*.local
+.env.development.local
+.env.development.*.local
+.env.production.local
+.env.production.*.local
+
+# TypeScript
+*.tsbuildinfo
+tsconfig.tsbuildinfo
+
+# React Native
+# Watchman watch files bucket
+watchman/
+
+# pnpm
+.pnpm/
+
+# Yarn
+.yarn/cache/
+
+# PNPM
+.pnpm-store/
+
+# npm
+.npm/
+
+# pnpm for creative
+.pnpm/
+
+# Vite
+.vite
+
+# Vercel
+.vercel
+
+# Turborepo
+.turbo
+
+# Renovate
+.renovate
+
+# Husky
+.husky
+
+# eslint
+.eslintcache
+
+# prettier
+.prettiercache
+
+# docker
+.docker
+
+# local directories
+/local
+
+# backend
+/backend/node_modules
+/backend/.env*
+/backend/dist
+/backend/.next
+
+# frontend
+/frontend/node_modules
+/frontend/.env*
+/frontend/dist
+/frontend/.next
+/frontend/build
+
+# Root
+*.md
