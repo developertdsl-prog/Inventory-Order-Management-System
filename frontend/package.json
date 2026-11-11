@@ -11,5 +11,10 @@
   "devDependencies": {
     "typescript": "~7.0.2",
     "vite": "^8.3.6"
+  },
+  "dependencies": {
+    "@hookform/resolvers": "^7.0.5",
+    "react-hook-form": "^7.91.0",
+    "react-router-dom": "^7.18.5"
   }
 }
