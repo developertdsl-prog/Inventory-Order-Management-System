@@ -1,0 +1,68 @@
+generator client {
+  provider = "postgresql"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(uuid())
+  email     String   @unique
+  password  String
+  role      String   @default("USER")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Product {
+  id          String    @id @default(uuid())
+  name        String
+  description String?
+  price       Float
+  sku         String    @unique
+  barcode     String?   @unique
+  stock       Int       @default(0)
+  category    Category?
+  images      String[]
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
+
+model Category {
+  id   String   @id @default(uuid())
+  name String   @unique
+  products Product[] @relation(fields: [categoryId], references: [id])
+  categoryId String?
+}
+
+model Supplier {
+  id        String   @id @default(uuid())
+  name      String
+  contact   String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model PurchaseOrder {
+  id            String   @id @default(uuid())
+  supplierId    String   @db.ForeignKey<Supplier>
+  supplier      Supplier @relation(fields: [supplierId], references: [id])
+  status        String   @default("PENDING")
+  totalAmount   Float
+  received      Boolean  @default(false)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
+
+model InventoryTransaction {
+  id            String   @id @default(uuid())
+  productId     String   @db.ForeignKey<Product>
+  product       Product   @relation(fields: [productId], references: [id])
+  type          String   // "STOCK_IN" or "STOCK_OUT"
+  quantity      Int
+  referenceId   String   // e.g., purchase order ID
+  referenceType String   // e.g., "PurchaseOrder"
+  createdAt     DateTime @default(now())
+}

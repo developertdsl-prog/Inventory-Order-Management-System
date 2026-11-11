@@ -1,0 +1,28 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "Inventory & Order Management System Backend",
+  "main": "src/app.ts",
+  "scripts": {
+    "dev": "ts-node src/app.ts",
+    "build": "tsc",
+    "start": "node dist/app.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "@prisma/client": "^7.10.1",
+    "@types/express": "^5.0.6",
+    "@types/node": "^26.6.6",
+    "bcryptjs": "^3.0.3",
+    "cors": "^2.8.6",
+    "dotenv": "^18.0.10",
+    "express": "^5.3.0",
+    "jsonwebtoken": "^9.0.3",
+    "prisma": "^8.0.0-rc.33",
+    "ts-node": "^10.9.2",
+    "typescript": "^7.0.2"
+  }
+}
