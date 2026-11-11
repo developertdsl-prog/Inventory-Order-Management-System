@@ -1,46 +1,35 @@
 import express from "express";
 import UserController from "../controllers/user.controller";
-import ProductController from "../controllers/product.controller";
-import CategoryController from "../controllers/category.controller";
-import SupplierController from "../controllers/supplier.controller";
-import PurchaseOrderController from "../controllers/purchase-order.controller";
-import InventoryTransactionController from "../controllers/inventory-transaction.controller";
+import { authenticateToken } from "../middleware/auth.middleware";
 
 const router = express.Router();
 
-// User routes
+// Auth routes
 router.post("/register", UserController.register);
 router.post("/login", UserController.login);
-router.get("/profile", UserController.getProfile);
+router.get("/profile", authenticateToken, UserController.getProfile);
 
-// Product routes
-router.get("/products", ProductController.list);
-router.post("/products", ProductController.create);
-router.get("/products/:id", ProductController.getById);
-router.put("/products/:id", ProductController.update);
-router.delete("/products/:id", ProductController.remove);
+// Protected product routes (example of role-based access)
+router.get("/products", authenticateToken, UserController.list);
+router.post("/products", authenticateToken, UserController.create);
+router.get("/products/:id", authenticateToken, UserController.getById);
+router.put("/products/:id", authenticateToken, UserController.update);
+router.delete("/products/:id", authenticateToken, UserController.remove);
 
-// Category routes
-router.get("/categories", CategoryController.list);
-router.post("/categories", CategoryController.create);
-router.get("/categories/:id", CategoryController.getById);
-router.put("/categories/:id", CategoryController.update);
-router.delete("/categories/:id", CategoryController.remove);
+// Public routes (no auth required)
+router.get("/health", (req, res) => {
+  res.json({ status: "ok" });
+});
 
-// Supplier routes
-router.get("/suppliers", SupplierController.list);
-router.post("/suppliers", SupplierController.create);
-router.get("/suppliers/:id", SupplierController.getById);
-router.put("/suppliers/:id", SupplierController.update);
-router.delete("/suppliers/:id", SupplierController.remove);
+// 404 handler
+router.use((req, res) => {
+  res.status(404).json({ error: "Not found" });
+});
 
-// Purchase Order routes
-router.post("/purchase-orders", PurchaseOrderController.create);
-router.get("/purchase-orders", PurchaseOrderController.list);
-router.put("/purchase-orders/:id/status", PurchaseOrderController.updateStatus);
-
-// Inventory Transaction routes
-router.post("/inventory-transactions", InventoryTransactionController.create);
-router.get("/inventory-transactions", InventoryTransactionController.list);
+// Error handler
+router.use((err: any, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).json({ error: "Internal server error" });
+});
 
 export default router;
