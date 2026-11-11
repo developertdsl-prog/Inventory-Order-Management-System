@@ -66,3 +66,66 @@ model InventoryTransaction {
   referenceType String   // e.g., "PurchaseOrder"
   createdAt     DateTime @default(now())
 }
+
+model Customer {
+  id        String   @id @default(uuid())
+  name      String
+  email     String   @unique
+  phone     String?
+  address   String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model SalesOrder {
+  id            String   @id @default(uuid())
+  customerId    String   @db.ForeignKey<Customer>
+  customer      Customer @relation(fields: [customerId], references: [id])
+  status        String   @default("PENDING")
+  totalAmount   Float    @default(0)
+  items         SalesOrderItem[]
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
+
+model SalesOrderItem {
+  id             String   @id @default(uuid())
+  salesOrderId   String   @db.ForeignKey<SalesOrder>
+  salesOrder     SalesOrder @relation(fields: [salesOrderId], references: [id])
+  productId      String   @db.ForeignKey<Product>
+  product        Product   @relation(fields: [productId], references: [id])
+  quantity       Int
+  unitPrice      Float
+}
+
+model Notification {
+  id        String   @id @default(uuid())
+  userId    String   @db.ForeignKey<User>
+  user      User     @relation(fields: [userId], references: [id])
+  title     String
+  message   String
+  type      String   // "LOW_STOCK", "ORDER_STATUS", "SYSTEM", "PURCHASE"
+  read      Boolean  @default(false)
+  createdAt DateTime @default(now())
+}
+
+model SystemConfig {
+  id        String   @id @default(uuid())
+  key       String   @unique
+  value     String
+  category  String   // "general", "email", "inventory", "order"
+  updatedAt DateTime @updatedAt
+}
+
+model UserPreference {
+  id        String   @id @default(uuid())
+  userId    String   @unique @db.ForeignKey<User>
+  user      User     @relation(fields: [userId], references: [id])
+  emailNotifications   Boolean  @default(true)
+  lowStockNotifications Boolean  @default(true)
+  orderStatusNotifications Boolean @default(true)
+  theme         String   @default("light")
+  language      String   @default("en")
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
